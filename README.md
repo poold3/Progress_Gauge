@@ -1,5 +1,6 @@
 # Progress_Gauge
 JavaScript for animated, custom-sized, and custom-colored progress gauges. Perfect for dashboards.
+https://codepen.io/poold3/pen/vYRMbyp
 ## HTML Syntax
 ```
 <canvas class="ProgressGauge" data-percentage="55" data-color="rgb(20, 52, 164)"  width="100" height="100"></canvas>
