@@ -6,6 +6,7 @@ JavaScript for animated, custom-sized, and custom-colored progress gauges. Perfe
 <script src="ProgressGauge.js"></script>
 ```
 ## Notes
+The animation consists of the circles moving around the percentage number.
 The `data-percentage` element is required and must be between 0 and 100.
 The `data-color` element is not required. If not provided, the default color is rgb(0,46,93).
 The code allows for any size of canvas, as long as it is square.
