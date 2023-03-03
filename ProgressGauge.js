@@ -13,6 +13,14 @@ function GetNextCirclePoint(circleObj) {
 	circleObj.y = circleObj.centerY - ySet;
 }
 
+//Gets the percentage value from a fraction
+function getPercentage(fraction) {
+	let separator = fraction.search("/");
+	let numerator = Number(fraction.substring(0, separator));
+	let denominator = Number(fraction.substring(separator + 1));
+	return Math.round((numerator / denominator) * 100);
+}
+
 //Loop through all canvases with class='ProgressGauge'
 let canvasElements = document.getElementsByClassName("ProgressGauge");
 for (let i = 0; i < canvasElements.length; ++i) {
@@ -29,9 +37,21 @@ for (let i = 0; i < canvasElements.length; ++i) {
 	}
 
 	//Error if canvas does not have percentage defined
+	let fraction;
 	let percentage;
+	let is_percentage;
 	if (c.hasAttribute('data-percentage')) {
-		percentage = c.dataset.percentage;
+		if (c.dataset.percentage.search("/") === -1) {
+			is_percentage = true;
+			percentage = c.dataset.percentage;
+		}
+		else {
+			is_percentage = false;
+			//Generate the percentage from the fraction
+			fraction = c.dataset.percentage;
+			percentage = getPercentage(fraction);
+		}
+
 		if (percentage < 0 || percentage > 100) {
 			console.error('Error: \'data-percentage\' attribute for ProgressGauge must be between 0 and 100.');
 			continue;
@@ -75,7 +95,13 @@ for (let i = 0; i < canvasElements.length; ++i) {
 	//Write the percentages as text at the center of each canvas.
 	ctx.fillStyle = color;
 	ctx.font = `${canvasWidth * 0.25}px serif`;
-	let percentText = `${percentage}%`;
+	let percentText;
+	if (is_percentage) {
+		percentText = `${percentage}%`;
+	}
+	else {
+		percentText = `${fraction}`;
+	}
 	let textWidth = ctx.measureText(percentText).width;
 	ctx.fillText(percentText, (canvasWidth / 2) - (textWidth / 2), (canvasHeight / 2) + canvasHeight * 0.07);
 
